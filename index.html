@@ -259,6 +259,12 @@ html, body {
         <p id="currentRentValue" class="result-value">—</p>
         <p id="currentRentSub" class="result-sub"></p>
       </div>
+
+      <div class="result-box">
+        <p class="result-label">الأجرة بعد الزيادة القادمة</p>
+        <p id="nextRentValue" class="result-value">—</p>
+        <p id="nextRentSub" class="result-sub"></p>
+      </div>
     </div>
   </div>
 </div>
@@ -273,6 +279,8 @@ const baseRentValue = document.getElementById('baseRentValue');
 const baseRentSub = document.getElementById('baseRentSub');
 const currentRentValue = document.getElementById('currentRentValue');
 const currentRentSub = document.getElementById('currentRentSub');
+const nextRentValue = document.getElementById('nextRentValue');
+const nextRentSub = document.getElementById('nextRentSub');
 const tierField = document.getElementById('tierField');
 const usageGroup = document.getElementById('usageGroup');
 const tierGroup = document.getElementById('tierGroup');
@@ -419,6 +427,20 @@ calcBtn.addEventListener('click', () => {
     const lYear = lastIncrease.getFullYear();
     currentRentSub.textContent = 'بعد ' + years + ' زيادة سنوية — آخر زيادة بتاريخ ' + lDay + '/' + lMonth + '/' + lYear;
   }
+
+  // الأجرة بعد الزيادة القادمة (سواء أول زيادة أو أي زيادة لاحقة)، دايماً معروضة
+  const nextIncreaseDate = new Date(firstIncreaseDate);
+  nextIncreaseDate.setFullYear(firstIncreaseDate.getFullYear() + years);
+  const nextRent = baseRent * Math.pow(1 + rate, years + 1);
+
+  nextRentValue.textContent = nextRent.toLocaleString('ar-EG', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }) + ' جنيه';
+  const nDay = String(nextIncreaseDate.getDate()).padStart(2, '0');
+  const nMonth = String(nextIncreaseDate.getMonth() + 1).padStart(2, '0');
+  const nYear = nextIncreaseDate.getFullYear();
+  nextRentSub.textContent = 'تُطبق اعتباراً من ' + nDay + '/' + nMonth + '/' + nYear;
 
   resultsWrap.classList.remove('hidden');
 });
