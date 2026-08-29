@@ -236,9 +236,9 @@ html, body {
     <div class="field" id="tierField">
       <label>فئة السكن</label>
       <div class="choice-group" id="tierGroup">
-        <button type="button" class="choice-btn" data-value="economic" data-min="250">اقتصادي</button>
-        <button type="button" class="choice-btn active" data-value="medium" data-min="400">متوسط</button>
-        <button type="button" class="choice-btn" data-value="premium" data-min="1000">متميز</button>
+        <button type="button" class="choice-btn" data-value="economic" data-min="250" data-multiplier="10">اقتصادي</button>
+        <button type="button" class="choice-btn active" data-value="medium" data-min="400" data-multiplier="10">متوسط</button>
+        <button type="button" class="choice-btn" data-value="premium" data-min="1000" data-multiplier="20">متميز</button>
       </div>
     </div>
 
@@ -398,13 +398,14 @@ calcBtn.addEventListener('click', () => {
   } else {
     const selectedTierBtn = tierGroup.querySelector('.choice-btn.active');
     const minRent = Number(selectedTierBtn.dataset.min);
+    const multiplier = Number(selectedTierBtn.dataset.multiplier);
     const tierLabel = selectedTierBtn.textContent.trim();
-    const computed = startRent * 10;
+    const computed = startRent * multiplier;
     baseRent = Math.max(computed, minRent);
     if (computed < minRent) {
-      baseNote = 'الأجرة الأصلية × 10 = ' + computed.toFixed(2) + '، أقل من الحد الأدنى لفئة ' + tierLabel + ' (' + minRent + ' جنيه)، فطُبّق الحد الأدنى';
+      baseNote = 'الأجرة الأصلية × ' + multiplier + ' = ' + computed.toFixed(2) + '، أقل من الحد الأدنى لفئة ' + tierLabel + ' (' + minRent + ' جنيه)، فطُبّق الحد الأدنى';
     } else {
-      baseNote = 'الأجرة الأصلية × 10 = ' + computed.toFixed(2) + '، أعلى من الحد الأدنى لفئة ' + tierLabel + '، فطُبّقت كما هي';
+      baseNote = 'الأجرة الأصلية × ' + multiplier + ' = ' + computed.toFixed(2) + '، أعلى من الحد الأدنى لفئة ' + tierLabel + '، فطُبّقت كما هي';
     }
   }
 
