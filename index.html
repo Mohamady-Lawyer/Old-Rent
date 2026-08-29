@@ -385,20 +385,21 @@ calcBtn.addEventListener('click', () => {
     }
   }
 
-  const dueDay = contractDate.getDate();
-  const firstApplicationDate = new Date(2025, 8, dueDay);
+  const firstApplicationDate = new Date(2025, 8, 1);
 
   baseRentValue.textContent = baseRent.toLocaleString('ar-EG', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }) + ' جنيه';
-  const day = String(firstApplicationDate.getDate()).padStart(2, '0');
-  baseRentSub.textContent = baseNote + ' — تُطبق اعتباراً من ' + day + '/9/2025';
+  baseRentSub.textContent = baseNote + ' — تُطبق اعتباراً من 1/9/2025 (تاريخ نفاذ القانون)';
+
+  const dueDay = contractDate.getDate();
+  const firstIncreaseDate = new Date(2026, 8, dueDay);
 
   const rate = 0.15;
   let years = 0;
-  if (today >= firstApplicationDate) {
-    years = calcFullYearsBetween(firstApplicationDate, today);
+  if (today >= firstIncreaseDate) {
+    years = calcFullYearsBetween(firstIncreaseDate, today) + 1;
   }
   const currentRent = baseRent * Math.pow(1 + rate, years);
 
@@ -407,13 +408,12 @@ calcBtn.addEventListener('click', () => {
     maximumFractionDigits: 2
   }) + ' جنيه';
 
-  if (today < firstApplicationDate) {
-    currentRentSub.textContent = 'لم يحن بعد تاريخ أول تطبيق (' + day + '/9/2025)';
-  } else if (years === 0) {
-    currentRentSub.textContent = 'استحقاق كل ' + day + '/9 — لم تحن أول زيادة سنوية بعد';
+  const fDay = String(firstIncreaseDate.getDate()).padStart(2, '0');
+  if (today < firstIncreaseDate) {
+    currentRentSub.textContent = 'لم تحن أول زيادة سنوية بعد (تُطبق ' + fDay + '/9/2026)';
   } else {
-    const lastIncrease = new Date(firstApplicationDate);
-    lastIncrease.setFullYear(firstApplicationDate.getFullYear() + years);
+    const lastIncrease = new Date(firstIncreaseDate);
+    lastIncrease.setFullYear(firstIncreaseDate.getFullYear() + years - 1);
     const lDay = String(lastIncrease.getDate()).padStart(2, '0');
     const lMonth = String(lastIncrease.getMonth() + 1).padStart(2, '0');
     const lYear = lastIncrease.getFullYear();
