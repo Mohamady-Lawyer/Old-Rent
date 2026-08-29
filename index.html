@@ -298,6 +298,21 @@ darkToggle.addEventListener('click', () => {
   localStorage.setItem('oldRentTheme', newTheme);
 });
 
+const fieldOrder = ['contractDate', 'startRent'];
+fieldOrder.forEach((id, index) => {
+  const el = document.getElementById(id);
+  el.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const isLast = index === fieldOrder.length - 1;
+    if (isLast) {
+      calcBtn.click();
+    } else {
+      document.getElementById(fieldOrder[index + 1]).focus();
+    }
+  });
+});
+
 let usageValue = 'residential';
 let tierValue = 'medium';
 
