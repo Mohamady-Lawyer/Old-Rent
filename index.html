@@ -20,6 +20,10 @@ html, body {
   padding: 0;
 }
 
+html {
+  min-height: 100%;
+}
+
 :root {
   /* Light mode (default) — warm ivory, professional */
   --bg-page: #f6f3ec;
@@ -57,10 +61,24 @@ html, body {
   --muted: #8a7f66;
   --danger: #a32d2d;
   --error-bg: #fbe9e9;
+}
 
+html {
+  background: #f6f3ec;
+}
+
+html:has(body.dark) {
+  background: #05070a;
+}
+
+body {
   background: var(--bg-page);
   color: var(--input-text);
   transition: background 0.2s ease, color 0.2s ease;
+  min-height: 100vh;
+  padding: 16px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 body.dark {
@@ -100,13 +118,6 @@ body.dark {
   --muted: #6b7a90;
   --danger: #ff6b5b;
   --error-bg: #3a1616;
-}
-
-body {
-  min-height: 100vh;
-  padding: 16px;
-  max-width: 480px;
-  margin: 0 auto;
 }
 
 .page-header {
