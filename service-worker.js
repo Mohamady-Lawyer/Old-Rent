@@ -1,4 +1,4 @@
-const CACHE_NAME = 'old-rent-law-v8';
+const CACHE_NAME = 'old-rent-law-v9';
 const FILES_TO_CACHE = [
   './index.html',
   './manifest.json',
